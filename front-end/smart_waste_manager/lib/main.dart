@@ -12,13 +12,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Smart Waste Manager',
       theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        bottomAppBarTheme: const BottomAppBarTheme(
+          color: Colors.blue,
+          // Nouvelle couleur du fond de la barre
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.red, // Couleur de fond de la BottomNavigationBar
+          selectedItemColor: Colors.grey, // Couleur des items sélectionnés
+
+          unselectedItemColor: Colors.black, // Couleur des items non sélectionnés
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent, secondary: Colors.red),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Smart Waste Manager'),
     );
   }
 }
