@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
 
           unselectedItemColor: Colors.grey, // Couleur des items non sélectionnés
         ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent, secondary: Colors.red),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent, secondary: Colors.red),
       ),
       home: const MyHomePage(title: 'Smart Waste Manager'),
     );
