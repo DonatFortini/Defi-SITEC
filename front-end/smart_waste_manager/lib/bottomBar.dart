@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_waste_manager/profil_page.dart';
 
 class MyBottomNavBar extends StatefulWidget {
   final int currentIndex;
@@ -65,12 +66,7 @@ class MyIndexedStack extends StatelessWidget {
             child: Text('Page 3'),
           ),
         ),
-        Container(
-          color: Colors.red,
-          child: const Center(
-            child: Text('Page 3'),
-          ),
-        ),
+        Profile(),
       ],
     );
   }
