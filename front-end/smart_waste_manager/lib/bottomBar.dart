@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_waste_manager/calendar.dart';
 import 'package:smart_waste_manager/map_page.dart';
 import 'package:smart_waste_manager/profil_page.dart';
 
@@ -24,8 +25,8 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
           label: 'Accueil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_add_alt),
-          label: 'Profil',
+          icon: Icon(Icons.calendar_month_outlined),
+          label: 'Calendrier',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.camera_alt_outlined),
@@ -50,12 +51,7 @@ class MyIndexedStack extends StatelessWidget {
       index: currentIndex,
       children: [
         MapPage(),
-        Container(
-          color: Colors.green,
-          child: const Center(
-            child: Text('Page 2'),
-          ),
-        ),
+        CalendarPage(),
         Container(
           color: Colors.orange,
           child: const Center(

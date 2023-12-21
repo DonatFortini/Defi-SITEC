@@ -7,7 +7,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PermissionStatus status = await Permission.location.request();
   if (status.isGranted) {
-    log("x" as num);
     // La permission de localisation a été accordée
   } else {
     // La permission de localisation a été refusée
