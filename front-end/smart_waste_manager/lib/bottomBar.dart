@@ -16,6 +16,8 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      elevation: 5,
+      backgroundColor: Colors.white,
       currentIndex: widget.currentIndex,
       onTap: widget.onTap,
       items: const [
