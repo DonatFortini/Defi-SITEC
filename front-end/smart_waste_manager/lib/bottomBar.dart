@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_waste_manager/map_page.dart';
 import 'package:smart_waste_manager/profil_page.dart';
 
 class MyBottomNavBar extends StatefulWidget {
@@ -48,12 +49,7 @@ class MyIndexedStack extends StatelessWidget {
     return IndexedStack(
       index: currentIndex,
       children: [
-        Container(
-          color: Colors.blue,
-          child: const Center(
-            child: Text('Page 1'),
-          ),
-        ),
+        MapPage(),
         Container(
           color: Colors.green,
           child: const Center(

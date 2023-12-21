@@ -1,7 +1,17 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:smart_waste_manager/first_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PermissionStatus status = await Permission.location.request();
+  if (status.isGranted) {
+    log("x" as num);
+    // La permission de localisation a été accordée
+  } else {
+    // La permission de localisation a été refusée
+  }
   runApp(const MyApp());
 }
 
@@ -20,9 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.red, // Couleur de fond de la BottomNavigationBar
-          selectedItemColor: Colors.grey, // Couleur des items sélectionnés
+          selectedItemColor: Colors.black, // Couleur des items sélectionnés
 
-          unselectedItemColor: Colors.black, // Couleur des items non sélectionnés
+          unselectedItemColor: Colors.grey, // Couleur des items non sélectionnés
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent, secondary: Colors.red),
         useMaterial3: true,
