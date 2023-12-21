@@ -35,7 +35,7 @@ def dijkstra_algorithm(graph):
     return pre, distances, visited
 
 
-graph = np.loadtxt("resau.txt")
+graph = np.loadtxt("ressources/resau.txt")
 
 predecessors, distances, visited = dijkstra_algorithm(graph)
 
