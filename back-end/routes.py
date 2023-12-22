@@ -58,5 +58,5 @@ def getAllVillageCoord() -> dict:
 
 
 @app.route('/api/data/EmpreinteCO2/<kilometrage>', methods=['GET'])
-def getEmpreinteCO2(kilometrage: float) -> float:
-    return empreinte_carbone_trajet(kilometrage)
+def getEmpreinteCO2(kilometrage: str) -> str:
+    return empreinte_carbone_trajet(float(kilometrage))

@@ -99,16 +99,19 @@ def generate_global_path(date_: date.datetime, depot=[42.60080491507166, 9.32292
     for i in all_trash.keys():
         if all_trash[i] != []:
             village_it = generate_path(all_trash[i], new_starting_point)
+            print(village_it)
             new_starting_point = village_it[-1]
             itineraire += village_it
     return itineraire
 
 
-def empreinte_carbone_trajet(kilometrage: float) -> float:
+def empreinte_carbone_trajet(kilometrage: float) -> str:
     '''retourne l'empreinte carbone d'un trajet en camion poubelle en kgCO2e'''
     # Valeur fournie pour l'empreinte carbone d'un camion poubelle en kgCO2e/t.km
     empreinte_carbone_camion = 0.0711
     poids_camion_tonnes = 10
-    return empreinte_carbone_camion * poids_camion_tonnes * kilometrage
+    x=empreinte_carbone_camion * poids_camion_tonnes * kilometrage
+    return str(x) 
+
 
 
