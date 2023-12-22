@@ -50,3 +50,8 @@ def getAllVillage() -> list:
 @app.route('/api/data/getAllVillageCoord', methods=['GET'])
 def getAllVillageCoord() -> dict:
     return ville_coord
+
+
+@app.route('/api/data/EmpreinteCO2/<kilometrage>', methods=['GET'])
+def getEmpreinteCO2(kilometrage: float) -> float:
+    return empreinte_carbone_trajet(kilometrage)

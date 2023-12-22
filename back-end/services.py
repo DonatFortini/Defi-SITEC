@@ -120,3 +120,10 @@ def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list[
         new_starting_point = village_it[-1]
         itineraire += village_it
     return itineraire
+
+def empreinte_carbone_trajet(kilometrage:float)->float:
+    '''retourne l'empreinte carbone d'un trajet en camion poubelle en kgCO2e'''
+    # Valeur fournie pour l'empreinte carbone d'un camion poubelle en kgCO2e/t.km
+    empreinte_carbone_camion = 0.0711
+    poids_camion_tonnes = 10
+    return empreinte_carbone_camion * poids_camion_tonnes * kilometrage
