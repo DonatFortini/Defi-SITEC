@@ -15,7 +15,7 @@ ville_coord = {"rapale": [42.580145, 9.2863423], "pieve": [42.5769588, 9.2849911
 all_trash = {}
 
 
-def get_poubelles_for_village(village: str) -> list[list]:
+def get_poubelles_for_village(village: str, date_: date.datetime) -> list[list]:
     '''retourne les coordonnées GPS des poubelles pour la commune passée en paramètre'''
     data = pd.read_excel(
         "back-end/Taux_Remplissage_ComCom_Nebbiu.xlsx", sheet_name=village)
@@ -25,7 +25,8 @@ def get_poubelles_for_village(village: str) -> list[list]:
     ngps = []
     print(gps)
     for i in range(len(gps)):
-        if test_poubelle(i, village):
+        print(i+1)
+        if not test_poubelle(i+1, village, date_):
             ngps.append(gps[i])
     print(ngps)
     return ngps

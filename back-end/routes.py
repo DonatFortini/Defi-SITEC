@@ -17,9 +17,9 @@ def getVillageCoord(nom_village: str) -> list:
     return get_village_coord(nom_village)
 
 
-@app.route('/api/getTrash/<nom_village>', methods=['GET'])
-def getTrash(nom_village: str) -> list[list]:
-    return get_poubelles_for_village(nom_village)
+@app.route('/api/getTrash/<nom_village>/<date_>', methods=['GET'])
+def getTrash(nom_village: str, date_: str) -> list[list]:
+    return get_poubelles_for_village(nom_village, date.datetime(int(date_.split('-')[0]), int(date_.split('-')[1]), int(date_.split('-')[2]), 0, 0, 0))
 
 
 @app.route('/api/getLastDump/<nom_village>/<num_poubelle>/<date_>', methods=['GET'])
