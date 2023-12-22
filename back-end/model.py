@@ -11,6 +11,24 @@ def create_df(file_name: str, num_poubelle: int, village: str) -> pd.DataFrame:
     }).dropna()
     return df
 
+def last_emptied_index(df: pd.DataFrame,date_:date.datetime) -> int:
+    date_index = df[df['date'] == date_].index[0]
+    past_date_index = date_index - 5
+    while df['remplissage'][past_date_index] != 0:
+        past_date_index -= 1
+    return past_date_index
+
+
+def rate_of_increase(df: pd.DataFrame, date_: date.datetime) -> float:
+    last_emptied_index = last_emptied_index(date_)
+    rate_of_increase=0
+    compt=0
+    for i in range(last_emptied_index, df[df['date'] == date_].index[0]):
+        rate_of_increase += df['remplissage'][i]
+        compt+=1
+    return rate_of_increase/compt   
+    
+
 
 def train_model(df: pd.DataFrame, date_: date.datetime) -> bool:
     future_date = pd.to_datetime(date_)
@@ -21,7 +39,7 @@ def train_model(df: pd.DataFrame, date_: date.datetime) -> bool:
         print("No past data available for scaling and prediction.")
         return False
 
-    last_emptied_index = df[df['remplissage'] == 0].index[-1]
+    
     index_date = df[df['date'] == date_].index[0]
     if df['remplissage'][index_date] >= 75:
         print("Condition 1: True")
@@ -29,14 +47,14 @@ def train_model(df: pd.DataFrame, date_: date.datetime) -> bool:
     elif df['coeff'][index_date] == 3:
         print("Condition 2: True")
         return True
-    elif df['coeff'][index_date] == 2 and df.loc[last_emptied_index - 1, 'remplissage'] != 0:
+    elif df['coeff'][index_date] == 2  and last_emptied_index(date_)-df[df['date'] == date_].index[0] < 2:
         print("Condition 3: True")
         return True
     elif df['coeff'][index_date] == 1:
         last_emptied_date = df.loc[last_emptied_index, 'date']
         rate_of_increase = df.loc[(df['date'] >= last_emptied_date) & (
             df['date'] <= date_), 'remplissage']
-        if df['remplissage'][index_date] >= 50 and rate_of_increase.sum() > 20:
+        if df['remplissage'][index_date] >= 50 and rate_of_increase(df,date_) > 20:
             print("Condition 4: True")
             return True
 

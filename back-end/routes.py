@@ -28,8 +28,8 @@ def getLastDump(nom_village: str, num_poubelle: int, date_: date.datetime) -> da
 
 
 @app.route('/api/getClosestVillage/<coordinates>', methods=['GET'])
-def getClosestVillage(coordinates: list) -> str:
-    return closest_village(coordinates)
+def getClosestVillage(coordinates: str) -> str:
+    return closest_village([float(coordinates.split(',')[0]), float(coordinates.split(',')[1])])
 
 
 @app.route('/api/generateRoute/<coordinates>/<starting_point>', methods=['GET'])
