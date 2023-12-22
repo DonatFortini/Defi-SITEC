@@ -5,11 +5,12 @@ import datetime as date
 def create_df(file_name: str, num_poubelle: int, village: str) -> pd.DataFrame:
     data = pd.read_excel(file_name, sheet_name=village)
     df = pd.DataFrame({
-        'date': data['Unnamed: 1'],
+        'date': data['Unnamed: 1'][1:] if village != 'casta' else data['poubelle 1'][1:],
         'remplissage': data[f'Unnamed: {num_poubelle*3}'][1:].astype(float),
         'coeff': data[f'Unnamed: {num_poubelle*3+1}'][1:].astype(float)
     }).dropna()
     return df
+
 
 def train_model(df: pd.DataFrame, date_: date.datetime) -> bool:
     future_date = pd.to_datetime(date_)
@@ -22,7 +23,6 @@ def train_model(df: pd.DataFrame, date_: date.datetime) -> bool:
 
     last_emptied_index = df[df['remplissage'] == 0].index[-1]
     index_date = df[df['date'] == date_].index[0]
-    print(df['remplissage'][index_date])
     if df['remplissage'][index_date] >= 75:
         print("Condition 1: True")
         return True

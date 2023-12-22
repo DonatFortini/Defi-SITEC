@@ -7,9 +7,9 @@ def hello():
     return 'Hello, World!'
 
 
-@app.route('/api/getMap', methods=['GET'])
-def getMap() -> list[list]:
-    return generate_global_path()
+@app.route('/api/getMap/<date_>', methods=['GET'])
+def getMap(date_:date.datetime) -> list[list]:
+    return generate_global_path(date_)
 
 
 @app.route('/api/getVillageCoord/<nom_village>', methods=['GET'])
@@ -60,3 +60,5 @@ def getAllVillageCoord() -> dict:
 @app.route('/api/data/EmpreinteCO2/<kilometrage>', methods=['GET'])
 def getEmpreinteCO2(kilometrage: float) -> float:
     return empreinte_carbone_trajet(kilometrage)
+
+

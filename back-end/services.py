@@ -23,12 +23,9 @@ def get_poubelles_for_village(village: str, date_: date.datetime) -> list[list]:
     gps = [parse_coordinates(data[i][1] if village != 'casta' else data["Unnamed: 2"][1])
            for i in data.columns if i.startswith('poubelle')]
     ngps = []
-    print(gps)
     for i in range(len(gps)):
-        print(i+1)
         if not test_poubelle(i+1, village, date_):
             ngps.append(gps[i])
-    print(ngps)
     return ngps
 
 
@@ -90,19 +87,21 @@ def generate_path(coordinates: list[list], starting_point: list) -> list[list]:
         return optimal_order[1:]
 
 
-def generate_global_path(depot=[42.60080491507166, 9.322923935409024]) -> list[list]:
+def generate_global_path(date_: date.datetime, depot=[42.60080491507166, 9.322923935409024]) -> list[list]:
     '''génère l'itinéraire global de la tournée'''
     itineraire = []
     for i in liste_ville:
         if all_trash.get(i) is not None:
-            all_trash[i] += get_poubelles_for_village(i)
+            all_trash[i] += get_poubelles_for_village(i, date_)
         else:
-            all_trash[i] = get_poubelles_for_village(i)
+            all_trash[i] = get_poubelles_for_village(i, date_)
     new_starting_point = depot
-    for i in liste_ville:
-        village_it = generate_path(all_trash[i], new_starting_point)
-        new_starting_point = village_it[-1]
-        itineraire += village_it
+    print(all_trash)
+    for i in all_trash.keys():
+        if all_trash[i] != []:
+            village_it = generate_path(all_trash[i], new_starting_point)
+            new_starting_point = village_it[-1]
+            itineraire += village_it
     return itineraire
 
 
@@ -112,3 +111,5 @@ def empreinte_carbone_trajet(kilometrage: float) -> float:
     empreinte_carbone_camion = 0.0711
     poids_camion_tonnes = 10
     return empreinte_carbone_camion * poids_camion_tonnes * kilometrage
+
+
