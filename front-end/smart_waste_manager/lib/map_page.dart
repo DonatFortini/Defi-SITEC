@@ -242,6 +242,10 @@ class _MapPageState extends State<MapPage> {
                               "Temps : ${(roadInfo!.duration! / 60).toStringAsFixed(0)} min",
                               style: const TextStyle(color: Colors.white),
                             ),
+                            Text(
+                              "Temps : ${(roadInfo!.distance! * 0.0711 * 10).toStringAsFixed(2)} kgCO2e/km",
+                              style: const TextStyle(color: Colors.white),
+                            ),
                             //Text("${roadInfo?.instructions[0]}${roadInfo?.instructions[1]}", style: const TextStyle(color: Colors.white)),
                           ],
                         ),

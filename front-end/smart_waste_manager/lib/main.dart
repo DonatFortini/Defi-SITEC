@@ -7,7 +7,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PermissionStatus status = await Permission.location.request();
   PermissionStatus cameraStatus = await Permission.camera.status;
-final cameras = await availableCameras();
+  final cameras = await availableCameras();
   if (!cameraStatus.isGranted) {
     PermissionStatus newCameraStatus = await Permission.camera.request();
 

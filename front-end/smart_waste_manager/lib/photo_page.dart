@@ -40,29 +40,42 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: cameras.isEmpty ? const Center( child: Text("pas de cameras"),): FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(_controller);
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+      body: cameras.isEmpty
+          ? Center(
+              child: //Image.asset('assets/images/poubelle.jpg'),
+                  Image(
+                image: AssetImage('assets/images/poubelle.png'),
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            )
+          : FutureBuilder<void>(
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CameraPreview(_controller);
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.camera_alt),
         onPressed: () async {
-          try {
-            await _initializeControllerFuture;
-            final path = join(
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
-            await _controller.takePicture();
-          } catch (e) {
-            print(e);
+          if (cameras.isEmpty) {
+            try {
+              await _initializeControllerFuture;
+              final path = join(
+                (await getTemporaryDirectory()).path,
+                '${DateTime.now()}.png',
+              );
+              await _controller.takePicture();
+            } catch (e) {
+              print(e);
+            }
           }
         },
       ),
