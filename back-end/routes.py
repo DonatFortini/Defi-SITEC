@@ -9,7 +9,7 @@ def hello():
 
 @app.route('/api/getMap', methods=['GET'])
 def getMap() -> list[list]:
-    return generate_global_route()
+    return generate_global_path()
 
 
 @app.route('/api/getVillageCoord/<nom_village>', methods=['GET'])
@@ -34,12 +34,17 @@ def getClosestVillage(coordinates: list) -> str:
 
 @app.route('/api/generateRoute/<coordinates>/<starting_point>', methods=['GET'])
 def generateRoute(coordinates: list[list], starting_point: list):
-    return generate_route(coordinates, starting_point)
+    return generate_path(coordinates, starting_point)
 
 
 @app.route('/api/data/getAllTrash', methods=['GET'])
 def getAllTrash() -> dict:
     return all_trash
+
+
+@app.route('/api/data/getAllTrashContent/<nom_village>/<num_poubelle>/<date_>', methods=['GET'])
+def getAllTrashContent(nom_village: str, num_poubelle: int, date_: date.datetime) -> float:
+    return get_trash_content(nom_village, num_poubelle, date_)
 
 
 @app.route('/api/data/getAllVillage', methods=['GET'])

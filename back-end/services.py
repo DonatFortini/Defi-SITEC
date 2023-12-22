@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 from scipy.spatial.distance import euclidean
 from itertools import permutations
-import re
+from utils import parse_coordinates, total_distance
 import datetime as date
-import math
+from model import test_poubelle
 
 liste_ville = ["rapale", "pieve", "sorio", "san gavino di tenda", "santu petro di tenda ", "casta", "saint florent ",
                "farinole", "patrimonio", "BARBAGGIO", "poggio oletta", "oletta", "olmeta di tuda", "rutali", "murato", "vallecalle"]
@@ -15,32 +15,6 @@ ville_coord = {"rapale": [42.580145, 9.2863423], "pieve": [42.5769588, 9.2849911
 all_trash = {}
 
 
-def dms_to_decimal(degrees: str, minutes: str, seconds: str, direction: str) -> float:
-    '''convertit les coordonnées GPS en degrés décimaux'''
-    decimal_degrees = float(degrees) + float(minutes) / \
-        60 + float(seconds)/(60*60)
-    decimal_degrees = - \
-        decimal_degrees if direction in ['S', 'W'] else decimal_degrees
-    return decimal_degrees
-
-
-def parse_coordinates(coord_string: str) -> list:
-    '''parse les coordonnées GPS au format DMS (degrés, minutes, secondes) et les retourne en degrés décimaux'''
-
-    if '°' not in coord_string:
-        return [float(coord_string.split(',')[0]), float(coord_string.split(',')[1])]
-
-    degrees = re.findall(r"(\d+)°", coord_string)
-    minutes = re.findall(r'(\d+)\'', coord_string)
-    seconds = re.findall(r'(\d+)"', coord_string)
-    lat_dir = re.findall(r'([NSEW])+', coord_string)
-
-    latitude = dms_to_decimal(degrees[0], minutes[0], seconds[0], lat_dir[0])
-    longitude = dms_to_decimal(degrees[1], minutes[1], seconds[1], lat_dir[1])
-
-    return [latitude, longitude]
-
-
 def get_poubelles_for_village(village: str) -> list[list]:
     '''retourne les coordonnées GPS des poubelles pour la commune passée en paramètre'''
     data = pd.read_excel(
@@ -48,7 +22,13 @@ def get_poubelles_for_village(village: str) -> list[list]:
     data = data.drop(['Unnamed: 0'], axis=1)
     gps = [parse_coordinates(data[i][1] if village != 'casta' else data["Unnamed: 2"][1])
            for i in data.columns if i.startswith('poubelle')]
-    return gps
+    ngps = []
+    print(gps)
+    for i in range(len(gps)):
+        if test_poubelle(i, village):
+            ngps.append(gps[i])
+    print(ngps)
+    return ngps
 
 
 def get_last_dump(village: str, num_poubelle: int, date_: date.datetime) -> date.datetime:
@@ -61,6 +41,16 @@ def get_last_dump(village: str, num_poubelle: int, date_: date.datetime) -> date
     for i in range(0, date_index+1):
         if drop[i] == 0:
             return dates[i]
+
+
+def get_trash_content(village: str, num_poubelle: int, date_: date.datetime) -> float:
+    '''retourne le taux de remplissage de la poubelle'''
+    data = pd.read_excel(
+        "back-end/Taux_Remplissage_ComCom_Nebbiu.xlsx", sheet_name=village)
+    drop = data[f"Unnamed: {num_poubelle*3}"]
+    dates = data["Unnamed: 1"]
+    date_index = dates[dates == date_].index[0]
+    return drop[date_index]
 
 
 def get_village_coord(nom_village: str) -> list:
@@ -83,15 +73,8 @@ def add_trash(coordinates: list) -> None:
         all_trash[village] = [coordinates]
 
 
-def generate_route(coordinates: list[list], starting_point: list) -> list[list]:
-    def calculate_distance(point1, point2):
-        return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
-
-    def total_distance(order):
-        dist = 0
-        for i in range(len(order) - 1):
-            dist += calculate_distance(order[i], order[i + 1])
-        return dist
+def generate_path(coordinates: list[list], starting_point: list) -> list[list]:
+    '''génère l'itinéraire de la tournée pour un village'''
     all_permutations = permutations(coordinates)
     min_distance = float('inf')
     optimal_order = None
@@ -106,7 +89,7 @@ def generate_route(coordinates: list[list], starting_point: list) -> list[list]:
         return optimal_order[1:]
 
 
-def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list[list]:
+def generate_global_path(depot=[42.60080491507166, 9.322923935409024]) -> list[list]:
     '''génère l'itinéraire global de la tournée'''
     itineraire = []
     for i in liste_ville:
@@ -116,12 +99,13 @@ def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list[
             all_trash[i] = get_poubelles_for_village(i)
     new_starting_point = depot
     for i in liste_ville:
-        village_it = generate_route(all_trash[i], new_starting_point)
+        village_it = generate_path(all_trash[i], new_starting_point)
         new_starting_point = village_it[-1]
         itineraire += village_it
     return itineraire
 
-def empreinte_carbone_trajet(kilometrage:float)->float:
+
+def empreinte_carbone_trajet(kilometrage: float) -> float:
     '''retourne l'empreinte carbone d'un trajet en camion poubelle en kgCO2e'''
     # Valeur fournie pour l'empreinte carbone d'un camion poubelle en kgCO2e/t.km
     empreinte_carbone_camion = 0.0711
