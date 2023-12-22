@@ -1,21 +1,10 @@
 import pandas as pd
 import numpy as np
 from scipy.spatial.distance import euclidean
-from scipy.spatial import distance_matrix
-from scipy.optimize import linear_sum_assignment
-import matplotlib.pyplot as plt
-import seaborn as sns
+from itertools import permutations
 import re
 import datetime as date
-import json
-import requests
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import StandardScaler
-from itertools import permutations
 import math
-
 
 liste_ville = ["rapale", "pieve", "sorio", "san gavino di tenda", "santu petro di tenda ", "casta", "saint florent ",
                "farinole", "patrimonio", "BARBAGGIO", "poggio oletta", "oletta", "olmeta di tuda", "rutali", "murato", "vallecalle"]
@@ -52,7 +41,7 @@ def parse_coordinates(coord_string: str) -> list:
     return [latitude, longitude]
 
 
-def get_poubelles_for_village(village: str) -> list:
+def get_poubelles_for_village(village: str) -> list[list]:
     '''retourne les coordonnées GPS des poubelles pour la commune passée en paramètre'''
     data = pd.read_excel(
         "back-end/Taux_Remplissage_ComCom_Nebbiu.xlsx", sheet_name=village)
@@ -62,17 +51,16 @@ def get_poubelles_for_village(village: str) -> list:
     return gps
 
 
-def get_last_dump(village: str, num_poubelle: int, date_: date) -> date:
+def get_last_dump(village: str, num_poubelle: int, date_: date.datetime) -> date.datetime:
     '''récupère la date du dernier vidange de la poubelle'''
     data = pd.read_excel(
         "back-end/Taux_Remplissage_ComCom_Nebbiu.xlsx", sheet_name=village)
     drop = data[f"Unnamed: {num_poubelle*3}"]
     dates = data["Unnamed: 1"]
-    date_index= dates[dates == date_].index[0]
+    date_index = dates[dates == date_].index[0]
     for i in range(0, date_index+1):
         if drop[i] == 0:
             return dates[i]
-    
 
 
 def get_village_coord(nom_village: str) -> list:
@@ -95,7 +83,7 @@ def add_trash(coordinates: list) -> None:
         all_trash[village] = [coordinates]
 
 
-def generate_route(coordinates: list, starting_point: list) -> list:
+def generate_route(coordinates: list[list], starting_point: list) -> list[list]:
     def calculate_distance(point1, point2):
         return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
@@ -118,7 +106,7 @@ def generate_route(coordinates: list, starting_point: list) -> list:
         return optimal_order[1:]
 
 
-def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list:
+def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list[list]:
     '''génère l'itinéraire global de la tournée'''
     itineraire = []
     for i in liste_ville:
@@ -132,6 +120,3 @@ def generate_global_route(depot=[42.60080491507166, 9.322923935409024]) -> list:
         new_starting_point = village_it[-1]
         itineraire += village_it
     return itineraire
-
-
-
