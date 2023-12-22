@@ -8,8 +8,8 @@ def hello():
 
 
 @app.route('/api/getMap/<date_>', methods=['GET'])
-def getMap(date_:date.datetime) -> list[list]:
-    return generate_global_path(date_)
+def getMap(date_: str) -> list[list]:
+    return generate_global_path(date.datetime(int(date_.split('-')[0]), int(date_.split('-')[1]), int(date_.split('-')[2]), 0, 0, 0))
 
 
 @app.route('/api/getVillageCoord/<nom_village>', methods=['GET'])
@@ -60,5 +60,3 @@ def getAllVillageCoord() -> dict:
 @app.route('/api/data/EmpreinteCO2/<kilometrage>', methods=['GET'])
 def getEmpreinteCO2(kilometrage: float) -> float:
     return empreinte_carbone_trajet(kilometrage)
-
-
