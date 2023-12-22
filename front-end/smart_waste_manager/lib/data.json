@@ -1,0 +1,92 @@
+{
+  "routes": [
+    {
+      "weight_typical": 2477.005,
+      "duration_typical": 1322.464,
+      "weight_name": "auto",
+      "weight": 2477.005,
+      "duration": 1322.163,
+      "distance": 9155.313,
+      "legs": [
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 695.552,
+          "duration_typical": 84.746,
+          "weight": 695.552,
+          "duration": 84.71,
+          "steps": [],
+          "distance": 362.21,
+          "summary": "D 82"
+        },
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 891.487,
+          "duration_typical": 328.28,
+          "weight": 891.487,
+          "duration": 328.344,
+          "steps": [],
+          "distance": 1105.259,
+          "summary": "D 82"
+        },
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 190.752,
+          "duration_typical": 200.82,
+          "weight": 190.752,
+          "duration": 200.792,
+          "steps": [],
+          "distance": 1723.087,
+          "summary": "D 82"
+        },
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 254.737,
+          "duration_typical": 248.047,
+          "weight": 254.737,
+          "duration": 247.894,
+          "steps": [],
+          "distance": 1892.769,
+          "summary": "D 82"
+        },
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 396.552,
+          "duration_typical": 407.449,
+          "weight": 396.552,
+          "duration": 407.277,
+          "steps": [],
+          "distance": 3101.024,
+          "summary": "D 82"
+        },
+        {
+          "via_waypoints": [],
+          "admins": [{ "iso_3166_1_alpha3": "FRA", "iso_3166_1": "FR" }],
+          "weight_typical": 47.924,
+          "duration_typical": 53.123,
+          "weight": 47.924,
+          "duration": 53.144,
+          "steps": [],
+          "distance": 970.964,
+          "summary": "D 82"
+        }
+      ],
+      "geometry": "clacG_|ax@NYq@aEkA]uAkDZ_BRUgBiBsA_CeB|C{DPwBq@vBp@zDQ`AiCn@Q^jAnCzCqAfAeBKcCtByAPqClBe@E{AyBgFj@}CaAk@c@_AkE}@_@kE`NeCtByDdAzGQnDqA~@cBnAEtFlF@vEa@fE~DM~BTv@xAaAgKd@eEhL{In@^RdDlArADfBZ`@dBGv@{@q@aEkA]uAkDZ_BmAt@uAOqC|BkAHeDnBmBaCgFj@gDgAa@]_AkEiA[_E|MeCtByDdAzGQnDqA~@cBnAEtFlF@vEa@fEvGG~AhBaAgKd@eEhL{In@^RdDlArADfBZ`@dBGv@{@q@aEkA]uAkDZ_BfBkEvCZ~CmFhFv@vAAfHyEdCe@ZPxArJvD~A~BeDfAkDhCiEtBS"
+    }
+  ],
+  "waypoints": [
+    { "distance": 14.777, "name": "", "location": [9.353762, 42.610739] },
+    { "distance": 36.274, "name": "", "location": [9.356994, 42.612003] },
+    { "distance": 19.026, "name": "D 82", "location": [9.354932, 42.61424] },
+    { "distance": 10.935, "name": "", "location": [9.351521, 42.615264] },
+    { "distance": 14.307, "name": "D 82", "location": [9.355714, 42.61689] },
+    { "distance": 6.723, "name": "D 82", "location": [9.358137, 42.608325] },
+    { "distance": 6.434, "name": "D 82", "location": [9.359801, 42.601945] }
+  ],
+  "code": "Ok",
+  "uuid": "VCJKA2-KIrvd61d4HjJul70PAeCY8z3iYjxak9zHcK3qCXSlZpiTCg=="
+}
