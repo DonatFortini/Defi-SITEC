@@ -96,7 +96,6 @@ def generate_global_path(date_: date.datetime, depot=[42.60080491507166, 9.32292
         else:
             all_trash[i] = get_poubelles_for_village(i, date_)
     new_starting_point = depot
-    print(all_trash)
     for i in all_trash.keys():
         if all_trash[i] != []:
             village_it = generate_path(all_trash[i], new_starting_point)
